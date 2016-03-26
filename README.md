@@ -13,6 +13,7 @@ npm install redux-reset
 1.Setup in createStore
 
 ```JavaScript
+import reduxReset from 'redux-reset'
 ...
 const enHanceCreateStore = compose(
     applyMiddleware(...),
