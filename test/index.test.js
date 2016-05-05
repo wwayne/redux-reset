@@ -71,3 +71,46 @@ test('Should works well with other store enhancer like applyMiddleware', (t) => 
   })
   t.end()
 })
+
+test('Should rest to specific state when trigger reset', (t) => {
+  const enHanceCreateStore = reduxReset(APP.RESET)(createStore)
+  const store = enHanceCreateStore(reducers)
+  const newState = {app: {test: 'test'}}
+
+  store.dispatch({ type: 'LOGIN' })
+  store.dispatch({
+    type: APP.RESET,
+    state: newState
+  })
+  t.deepEqual(store.getState(), newState)
+  t.end()
+})
+
+test('Should rest to specific state when giving a specific state params', (t) => {
+  const enHanceCreateStore = reduxReset({data: 'data'})(createStore)
+  const store = enHanceCreateStore(reducers)
+  const newState = {app: {test: 'test'}}
+
+  store.dispatch({ type: 'LOGIN' })
+  store.dispatch({
+    type: 'RESET',
+    data: newState
+  })
+  t.deepEqual(store.getState(), newState)
+  t.end()
+})
+
+test('Should rest to specific state when giving a specific state params and action type', (t) => {
+  const enHanceCreateStore = reduxReset({type: 'TEST', data: 'initialStateComesFrom'})(createStore)
+  const store = enHanceCreateStore(reducers)
+  const newState = {app: {test: 'test'}}
+
+  store.dispatch({ type: 'LOGIN' })
+  store.dispatch({
+    type: 'TEST',
+    initialStateComesFrom: newState
+  })
+  t.deepEqual(store.getState(), newState)
+  t.end()
+})
+

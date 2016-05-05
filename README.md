@@ -3,13 +3,13 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 [![Circle CI](https://circleci.com/gh/wwayne/redux-reset/tree/master.svg?style=svg)](https://circleci.com/gh/wwayne/redux-reset/tree/master)
 
-### Installation
+## Installation
 
 ```sh
 npm install redux-reset
 ```
 
-### Usage
+## Basic Usage
 1.Setup in createStore
 
 ```JavaScript
@@ -31,7 +31,8 @@ store.dispatch({
 })
 ```
 
-#####You can set any custom action.type to trigger reset. e.g:
+## Advanced Usage
+#### Set any custom action.type to trigger reset
 
 ```JavaScript
 import Enum from 'es6-enum'
@@ -43,10 +44,43 @@ const enHanceCreateStore = compose(
   )(createStore)
 const store = enHanceCreateStore(reducers)
 
+AFTER:
 store.dispatch({
   type: APP.RESET
 })
 ```
-### License
+
+#### Reset and specific to a new initial state
+
+```JavaScript
+store.dispatch({
+  type: 'RESET',
+  state: {app: {user: 'anotherUser'}} // Will use this as new initial state
+})
+```
+
+#### Reset and specific to a new initial state, new state comes from a specific params in action
+
+```JavaScript
+import Enum from 'es6-enum'
+const APP = Enum('RESET')
+
+const enHanceCreateStore = compose(
+    applyMiddleware(...),
+    reduxReset({
+     type: APP.RESET,
+     data: 'initialStateComesFrom'
+    })
+  )(createStore)
+const store = enHanceCreateStore(reducers)
+
+AFTER:
+store.dispatch({
+  type: APP.RESET,
+  initialStateComesFrom: {app: {user: 'anotherUser'}}
+})
+```
+
+## License
 
 MIT
