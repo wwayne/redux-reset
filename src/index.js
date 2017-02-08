@@ -1,5 +1,5 @@
 export default function resetMiddleware (option) {
-  return (next) => (reducer, initialState) => {
+  return (next) => (reducer, initialState, enhancer) => {
     let resetType = 'RESET'
     let resetData = 'state'
 
@@ -17,6 +17,6 @@ export default function resetMiddleware (option) {
       return reducer(state, action)
     }
 
-    return next(enhanceReducer, initialState)
+    return next(enhanceReducer, initialState, enhancer)
   }
 }
