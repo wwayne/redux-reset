@@ -45,6 +45,19 @@ test('Should rest success if use default reset action', (t) => {
   t.end()
 })
 
+test('Should rest success if use default reset action after replaceReducer', (t) => {
+  const enHanceCreateStore = reduxReset()(createStore)
+  const store = enHanceCreateStore(reducers)
+  store.replaceReducer(reducers)
+
+  store.dispatch({ type: 'LOGIN' })
+  store.dispatch({ type: 'RESET' })
+  t.deepEqual(store.getState(), {
+    app: initState
+  })
+  t.end()
+})
+
 test('Should rest success if use custom reset action', (t) => {
   const enHanceCreateStore = reduxReset(APP.RESET)(createStore)
   const store = enHanceCreateStore(reducers)

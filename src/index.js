@@ -17,6 +17,12 @@ export default function resetMiddleware (option) {
       return reducer(state, action)
     }
 
-    return next(enhanceReducer, initialState, enhancer)
+    const store = next(enhanceReducer, initialState, enhancer)
+    const replaceReducer = (_reducer) => {
+      reducer = _reducer
+      store.replaceReducer(enhanceReducer)
+    }
+
+    return Object.assign({}, store, { replaceReducer })
   }
 }
